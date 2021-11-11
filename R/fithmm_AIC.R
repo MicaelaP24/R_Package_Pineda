@@ -10,3 +10,9 @@ noctules_m <- move(x = noctules$location.long,
                    animal = noctules$individual.local.identifier)
 #str(noctules_m)
 plot(noctules_m)
+
+##Expected function inputs
+##Data frame of filtered bats caught in the spring, create bat night, regularize data
+
+##Expected outputs
+##Different AIC values for every fit model using different initial parameters to determine the best fit model for one bat on one bat night

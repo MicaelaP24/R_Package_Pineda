@@ -6,3 +6,10 @@ write.csv(spring,
 spring$timeLag <- unlist(lapply(timeLag(spring, units='secs'), c, NA)) 
 range(spring$timeLag, na.rm=TRUE)
 ggplot(spring@data)+geom_histogram(aes(x = timeLag))+xlim(200, 500)
+
+
+##Expected function inputs
+##Data frame of bats caught in spring
+
+##Expected outputs
+##Data frame with added column "timelag" which has regularized time lag intervals

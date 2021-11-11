@@ -6,3 +6,9 @@ f1_line <- f1 %>%
   st_cast("LINESTRING")
 
 mapview(f1_line)
+
+##Expected function inputs. 
+##Data frame and individual.local.identifier "60F1"
+
+##Expected outputs. 
+##A plot with all gps locations of "60F1"

@@ -8,3 +8,10 @@ noctules$timestamp <- ymd_hms(noctules$timestamp)
 
 f1 <- noctules %>% 
   filter(individual.local.identifier == "60F1")
+
+
+##Expected function inputs
+##Data frame of filtered bats caught in spring
+
+##Expected outputs
+##A histogram of speed vs height above msl from bat "60F1"
