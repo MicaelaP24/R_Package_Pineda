@@ -10,7 +10,7 @@ point_plot <- function(x, y, z){
   product <- ggplot(data = x)+
     geom_point(aes(x = {{y}}, y = {{z}}))
   if(is.ggplot(product) == FALSE){
-    return("ERROR - plot")
+    return("ERROR - non plot")
   }
   return(product)
   
