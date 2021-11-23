@@ -1,18 +1,16 @@
-noctules <- read.csv("C:\\Users\\12093\\Documents\\Bat data\\CSV\\spring.csv")
-library(tidyverse)
-library(lubridate)
-noctules$timestamp <- ymd_hms(noctules$timestamp)
-noctules_m <- move(x = noctules$location.long,
-                   y = noctules$location.lat,
-                   time = noctules$timestamp,
-                   data = noctules,
-                   proj = CRS("+proj=longlat +ellps=WGS84"),
-                   animal = noctules$individual.local.identifier)
-#str(noctules_m)
-plot(noctules_m)
+#'best fit model with lowest AIC value
+#'
+#'@param x list of fit momentuHMMdata and data.frame
+#'@return product of min AIC value
+#'@usage
 
-##Expected function inputs
-##Data frame of filtered bats caught in the spring, create bat night, regularize data
 
-##Expected outputs
-##Different AIC values for every fit model using different initial parameters to determine the best fit model for one bat on one bat night
+best_fit_model <- function(x){
+  allAIC <- unlist(lapply(x, AIC))
+  product <- min(allAIC)
+  if(is.numeric(product) == FALSE){
+    return("ERROR - non data frame")
+  }
+  return(product)
+  
+}

@@ -1,13 +1,22 @@
-noctules_2 <- read.csv("C:\\Users\\12093\\Documents\\Bat data\\Nyctalus.csv")
-noctules2<- noctules_2 %>% 
-  rename(ID = individual.local.identifier)
-data_ordered <- noctules2[with(noctules2, order(ID, timestamp)),]
-data_ordered
+#'reorder data by individual ID and timestamp
+#'
+#'@param x a data frame
+#'@param y individual local identifier column
+#'@param z timestamp column
+#'@return product of reordered data
+#'@usage
+
+data_ordered <- function(x, y, by_col){
+  x <- x %>%
+    rename(ID = {{y}}) %>% 
+    rename(sortkey = {{by_col}})
+  product <- x[with(x, order(ID, sortkey)),]
+  
+  if(is.data.frame(product) == FALSE){
+    return("ERROR - non data frame")
+  }
+  return(product)
+  
+}
 
 
-
-##Expected function inputs
-##Data frame of all bat data collected from both years
-
-##Expected outputs
-##Data frame of data organized by individual and date of tagging so individuals tagged in both years will be grouped together
