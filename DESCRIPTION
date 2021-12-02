@@ -1,5 +1,5 @@
 Package: PinedaRPackage
-Title: An R package for smart science
+Title: An R package for smart science!
 Version: 0.0.0.9000
 Authors@R: 
     person("Micaela", "Pineda", , "micaela.pineda@selu.edu", role = c("aut", "cre"))
