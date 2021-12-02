@@ -1,0 +1,56 @@
+---
+title: "Pineda R package"
+author: "Micaela Pineda"
+date: "12/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+
+```
+
+## Installation
+
+Load in common libraries used by this package
+
+```{r}
+
+library(ggplot2)
+library(tidyverse)
+
+```
+
+
+You might need to install 
+
+```{r eval=FALSE}
+install.packages()
+
+
+```
+
+Now, we install my R Package
+```{r}
+devtools::install_git("MicaelaP24/R_Package_Pineda")
+
+```
+```{r}
+download.file()
+
+```
+
+
+###Working Example
+
++ An example of each function and how it works
++ Say something about why it is a good thing to do (goal)
++ Expected output
+
+```{r}
+
+
+
+```
