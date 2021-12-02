@@ -1,5 +1,5 @@
 ##Creating bat days from spring captures
-noctules <- read.csv("C:\\Users\\12093\\Documents\\Bat data\\CSV\\spring.csv")
+noctules <- read.csv("/cloud/project/Thesis data/spring.csv")
 library(tidyverse)
 library(lubridate)
 noctules$timestamp <- ymd_hms(noctules$timestamp)
@@ -37,7 +37,7 @@ nocday$timestamp <- as.POSIXct(nocday$timestamp, tz = "UTC")
 
 
 nocday_L <- split(nocday, f=nocday$batIDday)
-nocdays <- as.data.frame(nocday_L)
+
 
 ##Creating data frames for individual bat days
 a <- as.data.frame(nocday_L$X60F1.2)

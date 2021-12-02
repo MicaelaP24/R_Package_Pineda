@@ -1,4 +1,4 @@
-event-id,visible,timestamp,location-long,location-lat,gps:hdop,gps:maximum-signal-strength,gps:satellite-count,ground-speed,height-above-ellipsoid,height-above-msl,sensor-type,individual-taxon-canonical-name,tag-local-identifier,individual-local-identifier,study-name
+event-id,visible,time_stamp,location-long,location-lat,gps:hdop,gps:maximum-signal-strength,gps:satellite-count,ground-speed,height-above-ellipsoid,height-above-msl,sensor-type,individual-taxon-canonical-name,tag-local-identifier,individual.local.identifier,study-name
 5995292480,true,2018-04-18 23:54:51.000,-6.44281,36.99134,3.2,355.0,4,0.0,,4.0,"gps","Nyctalus lasiopterus","GPA-1_60F1_S1","60F1","Nyctalus lasiopterus noctulo mayor Donana"
 5995292481,true,2018-04-19 19:26:35.000,-6.49177,36.98097,1.0,444.0,6,6.166666715999999,,112.0,"gps","Nyctalus lasiopterus","GPA-1_60F1_S1","60F1","Nyctalus lasiopterus noctulo mayor Donana"
 5995292482,true,2018-04-19 19:27:01.000,-6.49077,36.98206,1.0,340.0,6,6.166666715999999,,112.0,"gps","Nyctalus lasiopterus","GPA-1_60F1_S1","60F1","Nyctalus lasiopterus noctulo mayor Donana"
