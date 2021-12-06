@@ -34,7 +34,7 @@ install.packages()
 
 Now, we install my R Package
 ```{r}
-devtools::install_git("MicaelaP24/R_Package_Pineda")
+devtools::install_github("MicaelaP24/R_Package_Pineda")
 
 ```
 ```{r}
@@ -51,6 +51,15 @@ download.file()
 
 ```{r}
 
+library(PinedaRPackage)
 
 
 ```
+
+
+
+##make an R block ctrl, alt, i
+```{r}
+
+```
+
