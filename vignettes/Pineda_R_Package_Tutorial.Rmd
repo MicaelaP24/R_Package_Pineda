@@ -6,8 +6,6 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
 
 
 ```
@@ -27,8 +25,11 @@ library(tidyverse)
 You might need to install 
 
 ```{r eval=FALSE}
-install.packages()
 
+install.packages("momentuHMM")
+install.packages("move")
+install.packages("conicfit")
+install.packages("dplyr")
 
 ```
 
@@ -36,9 +37,19 @@ Now, we install my R Package
 ```{r}
 devtools::install_github("MicaelaP24/R_Package_Pineda")
 
+library(PinedaRPackage)
+
+pkgdown::build_site()
 ```
+
+
+
 ```{r}
-download.file()
+download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/Nyctalus2.csv", destfile = "/cloud/project/data/Noc.csv")
+
+download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/spring.csv", destfile = "/cloud/project/data/SP.csv")
+
+download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/B212_2.csv", destfile = "/cloud/project/data/B212_2")
 
 ```
 
@@ -49,9 +60,12 @@ download.file()
 + Say something about why it is a good thing to do (goal)
 + Expected output
 
+##one individual filtered out of the data set
 ```{r}
+noctules <- read.csv("./data/Nyctalus2.csv")
 
-library(PinedaRPackage)
+noc <- fil(noctules, individual.local.identifier, "60F1")
+
 
 
 ```
@@ -59,7 +73,104 @@ library(PinedaRPackage)
 
 
 ##make an R block ctrl, alt, i
+##plot of height vs speed
 ```{r}
+
+noc$timestamp <- ymd_hms(noc$timestamp)
+library(move)
+
+f1_m <- move(x = noc$location.long,
+             y = noc$location.lat,
+             time = noc$timestamp,
+             data = noc,
+             proj = CRS("+proj=longlat +ellps=WGS84"),
+             animal = "noc")
+
+f1_m$speed <- c(move::speed(f1_m), NA)
+f1_m$speed
+f1_m$turnAngle <- c(move::angle(f1_m), NA)
+f1_m$timeLag <- c(move::timeLag(f1_m, units="mins"), NA)
+f1_m$timeLag
+f1_m$stepLength <- c(move::distance(f1_m), NA)
+f1_m$stepLength
+plot(f1_m$stepLength)
+
+point_plot(f1_m@data, height.above.msl, speed)
+```
+
+
+##data frame with added column timelag and histogram of timelag intervals
+```{r}
+spring <- move("./data/spring.csv")
+
+timeLags(spring)
+
+```
+##Data frame of data organized by individual and date of tagging so individuals tagged in both years will be grouped together
+
+```{r}
+
+data_ordered(noctules, individual.local.identifier, timestamp)
+
+```
+
+
+
+
+
+```{r}
+B212_2 <- read.csv("C:\\Users\\12093\\Documents\\Bat data\\Batday_dataframes\\B212_2.csv")
+B212_2$timestamp <- ymd_hms(B212_2$timestamp)
+B212_2_re <- B212_2 %>% dplyr::select(ID=batIDday, time=timestamp, x=utm.x, y=utm.y)
+
+##fitting crwPredict
+crwOut_2 <- crawlWrap(obsData= B212_2_re, 
+                      Time.name="time", 
+                      timeStep="30 secs",
+                      retryFits = 5)
+
+plot(crwOut_2,ask=FALSE)
+B212_2_processed <- prepData(crwOut_2, type= c("UTM"), coordNames = c("x", "y"))
+
+plot(B212_2_processed)
+par(mfrow=c(2,1))
+hist(B212_2_processed$step)
+hist(B212_2_processed$angle)
+set.seed(12345)
+niter <- 25
+vals <- seq(1, niter, by = 1) 
+allm4 <- split(vals, f = vals)
+##for loop four states
+for(i in 1:niter) {
+  tryCatch({
+    # Step length mean 
+    # Step length mean 
+    ES_Step0 <- runif(1, min = c(0.001, 1), max = c(1, 150))
+    forageStep0 <- runif(1, min = c(150, 200), max = c(200, 250))
+    moveStep0 <- runif(1, min = c(250, 300), max = c(300, 350))
+    commuteStep0 <- runif(1, min = c(350, 450), max = c(450, 500))
+    stepMean0 <- c(ES_Step0, forageStep0, moveStep0, commuteStep0)
+    # Step length standard deviation
+    stepSD0 <- runif(4,
+                     min = c(1, 10),
+                     max = c(10, 25)) # Turning angle mean
+    anglePar0 <- c(2, 1.5, 1, 0.001)
+    # Turning angle concentration
+    dist <- list(step = "gamma", angle = "vm")
+    # Fit model
+    stepPar0 <- c(stepMean0, stepSD0)
+    allm4[[i]] <- momentuHMM::fitHMM(data = B212_2_processed, 
+                                     nbStates = 4, 
+                                     dist= dist, 
+                                     Par0=list(step=stepPar0, angle=anglePar0))
+  }, error=function(e) NULL)
+}
+
+
+
+best_fit_model(allm4)
+
+
 
 ```
 
