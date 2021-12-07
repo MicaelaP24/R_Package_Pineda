@@ -2,7 +2,7 @@
 #'
 #'@param x list of fit momentuHMMdata and data.frame
 #'@return product of min AIC value
-#'@usage
+#'@export
 
 
 best_fit_model <- function(x){

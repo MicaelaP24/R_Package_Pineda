@@ -4,7 +4,7 @@
 #'@param y individual local identifier column
 #'@param z individual selected
 #'@return data frame of one individual
-#'@usage
+#'@export
 
 fil <- function(x, y, z){
   product <- x %>% 

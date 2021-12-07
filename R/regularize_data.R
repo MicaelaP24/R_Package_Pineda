@@ -2,7 +2,7 @@
 #'
 #'@param x is a movestack object
 #'@return product histogram of timelags
-#'@usage
+#'@export
 
 
 timeLags <- function(x){

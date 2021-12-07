@@ -4,7 +4,7 @@
 #'@param y individual local identifier column
 #'@param z timestamp column
 #'@return product of reordered data frame
-#'@usage
+#'@export
 
 data_ordered <- function(x, y, by_col){
   x <- x %>%
