@@ -5,11 +5,6 @@ date: "12/2/2021"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-
-
-```
-
 ## Installation
 
 Load in common libraries used by this package
@@ -18,7 +13,7 @@ Load in common libraries used by this package
 
 library(ggplot2)
 library(tidyverse)
-
+library(lubridate)
 ```
 
 
@@ -33,36 +28,49 @@ install.packages("dplyr")
 
 ```
 
-Now, we install my R Package
+
+And load the libraries:
+
 ```{r}
-devtools::install_github("MicaelaP24/R_Package_Pineda")
-
-library(PinedaRPackage)
-
-pkgdown::build_site()
+library(move)
+library(momentuHMM)
+library(conicfit)
+library(dplyr)
 ```
 
 
+Now, we install my R Package
 
 ```{r}
+#devtools::install_github("MicaelaP24/R_Package_Pineda")
+
+library(PinedaRPackage)
+
+
+```
+
+
+Load these files
+```{r eval=FALSE}
 download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/Nyctalus2.csv", destfile = "/cloud/project/data/Noc.csv")
 
 download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/spring.csv", destfile = "/cloud/project/data/SP.csv")
 
-download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/B212_2.csv", destfile = "/cloud/project/data/B212_2")
+download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/B212_2.csv", destfile = "/cloud/project/data/B212_2.csv")
 
 ```
 
 
-###Working Example
+###Working Examples
 
 + An example of each function and how it works
 + Say something about why it is a good thing to do (goal)
 + Expected output
 
 ##one individual filtered out of the data set
+product data frame of one individual
 ```{r}
-noctules <- read.csv("./data/Nyctalus2.csv")
+noctules <- read.csv("/cloud/project/data/Nyctalus2.csv")
 
 noc <- fil(noctules, individual.local.identifier, "60F1")
 
@@ -72,12 +80,13 @@ noc <- fil(noctules, individual.local.identifier, "60F1")
 
 
 
-##make an R block ctrl, alt, i
+
 ##plot of height vs speed
+product plot of speed & height above sea level
 ```{r}
 
 noc$timestamp <- ymd_hms(noc$timestamp)
-library(move)
+
 
 f1_m <- move(x = noc$location.long,
              y = noc$location.lat,
@@ -101,11 +110,13 @@ point_plot(f1_m@data, height.above.msl, speed)
 
 ##data frame with added column timelag and histogram of timelag intervals
 ```{r}
-spring <- move("./data/spring.csv")
+spring <- move("/cloud/project/data/SP.csv")
 
 timeLags(spring)
 
 ```
+
+
 ##Data frame of data organized by individual and date of tagging so individuals tagged in both years will be grouped together
 
 ```{r}
@@ -117,13 +128,13 @@ data_ordered(noctules, individual.local.identifier, timestamp)
 
 
 
-
-```{r}
-B212_2 <- read.csv("C:\\Users\\12093\\Documents\\Bat data\\Batday_dataframes\\B212_2.csv")
+##best fit model with lowest AIC value
+```{r eval=FALSE}
+B212_2 <- read.csv("/cloud/project/data/B212_2.csv")
 B212_2$timestamp <- ymd_hms(B212_2$timestamp)
 B212_2_re <- B212_2 %>% dplyr::select(ID=batIDday, time=timestamp, x=utm.x, y=utm.y)
 
-##fitting crwPredict
+#fitting crwPredict
 crwOut_2 <- crawlWrap(obsData= B212_2_re, 
                       Time.name="time", 
                       timeStep="30 secs",
@@ -137,25 +148,25 @@ par(mfrow=c(2,1))
 hist(B212_2_processed$step)
 hist(B212_2_processed$angle)
 set.seed(12345)
-niter <- 25
+niter <- 5
 vals <- seq(1, niter, by = 1) 
 allm4 <- split(vals, f = vals)
 ##for loop four states
 for(i in 1:niter) {
   tryCatch({
-    # Step length mean 
-    # Step length mean 
+    #Step length mean 
+     #Step length mean 
     ES_Step0 <- runif(1, min = c(0.001, 1), max = c(1, 150))
     forageStep0 <- runif(1, min = c(150, 200), max = c(200, 250))
     moveStep0 <- runif(1, min = c(250, 300), max = c(300, 350))
     commuteStep0 <- runif(1, min = c(350, 450), max = c(450, 500))
     stepMean0 <- c(ES_Step0, forageStep0, moveStep0, commuteStep0)
-    # Step length standard deviation
+    #Step length standard deviation
     stepSD0 <- runif(4,
                      min = c(1, 10),
                      max = c(10, 25)) # Turning angle mean
     anglePar0 <- c(2, 1.5, 1, 0.001)
-    # Turning angle concentration
+    #Turning angle concentration
     dist <- list(step = "gamma", angle = "vm")
     # Fit model
     stepPar0 <- c(stepMean0, stepSD0)
@@ -169,7 +180,6 @@ for(i in 1:niter) {
 
 
 best_fit_model(allm4)
-
 
 
 ```
