@@ -2,7 +2,9 @@
 title: "Pineda R package"
 author: "Micaela Pineda"
 date: "12/2/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ## Installation
@@ -22,10 +24,9 @@ You might need to install
 ```{r eval=FALSE}
 
 install.packages("momentuHMM")
-install.packages("move")
 install.packages("conicfit")
 install.packages("dplyr")
-
+devtools::install_git('https://gitlab.com/bartk/move.git')
 ```
 
 
@@ -52,7 +53,7 @@ library(PinedaRPackage)
 
 Load these files
 ```{r eval=FALSE}
-download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/Nyctalus2.csv", destfile = "/cloud/project/data/Noc.csv")
+download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/Nyctalus2.csv", destfile = "/cloud/project/data/Nyctalus2.csv")
 
 download.file("https://raw.githubusercontent.com/MicaelaP24/R_Package_Pineda/master/data/spring.csv", destfile = "/cloud/project/data/SP.csv")
 
